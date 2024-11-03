@@ -2,8 +2,11 @@ import { useRouter } from "next/navigation";
 import { memo } from "react";
 import { useTransition } from "@/app/providers";
 import { css } from "@emotion/react";
+import { ReactProps } from "@/types/global-interface";
 
-export const RouteBack = memo(function RouteBack() {
+export const RouteBack = memo<
+  ReactProps<{ title: string; showArrow?: boolean }>
+>(function RouteBack({ title, showArrow }) {
   const router = useRouter();
   const { setSlideDirection, isMobile } = useTransition();
 
@@ -25,21 +28,24 @@ export const RouteBack = memo(function RouteBack() {
       <button
         onClick={handleBack}
         css={css`
+          cursor: pointer;
+          display: flex;
+          gap: 14px;
           background: none;
           border: none;
           color: white;
           font-size: 24px;
         `}
       >
-        ←
+        {showArrow && <span>&lt;</span>}
+        <h1
+          css={css`
+            font-size: 24px;
+          `}
+        >
+          {title}
+        </h1>
       </button>
-      <h1
-        css={css`
-          font-size: 24px;
-        `}
-      >
-        Home Page
-      </h1>
     </div>
   );
 });

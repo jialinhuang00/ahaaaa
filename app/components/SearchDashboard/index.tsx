@@ -1,18 +1,18 @@
 "use client";
+import { memo } from "react";
+import { useSnapshot } from "valtio";
 import { css } from "@emotion/react";
-import { useTransition } from "@/app/providers";
 import { useRouter } from "next/navigation";
+import { useTransition } from "@/app/providers";
 import { Button } from "@/app/components/Base/Button";
 import { Slider } from "@/app/components/Slider";
-import { memo, useState } from "react";
 import { Input } from "@/app/components/Base/Input";
 import { media } from "@/app/css/media";
+import { searchParamStore } from "@/app/store/searchParamStore";
 
 const SearchDashboard = memo(function SearchDashboard() {
   const router = useRouter();
-
-  const [n, setN] = useState(30);
-  const [q, setQ] = useState("");
+  const { q, n } = useSnapshot(searchParamStore);
   const { setSlideDirection } = useTransition();
 
   const handleSearch = () => {
@@ -64,7 +64,10 @@ const SearchDashboard = memo(function SearchDashboard() {
           Search
         </h1>
 
-        <Input onChange={(e) => setQ(e.target.value)} label={""} />
+        <Input
+          onChange={(e) => (searchParamStore.q = e.target.value)}
+          label={""}
+        />
       </div>
 
       <div>
@@ -80,7 +83,7 @@ const SearchDashboard = memo(function SearchDashboard() {
         <Slider
           defaultValue={0}
           onChange={(value) => {
-            setN(value);
+            searchParamStore.n = value;
           }}
         />
       </div>

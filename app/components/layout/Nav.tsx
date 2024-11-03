@@ -6,7 +6,7 @@ import { media } from "@/app/css/media";
 import { useTransition } from "@/app/providers";
 
 const navItems = [
-  { url: "/", name: "Home" },
+  { url: "/search", name: "Home" },
   { url: "/tags", name: "Tags" },
 ];
 

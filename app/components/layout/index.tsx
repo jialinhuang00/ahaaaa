@@ -2,7 +2,7 @@
 import { Nav } from "@/app/components/layout/Nav";
 import { media } from "@/app/css/media";
 import { css } from "@emotion/react";
-import { Follow } from "@/app/components/Follow";
+import Follow from "@/app/components/Follow";
 import { usePathname } from "next/navigation";
 
 export default function AppLayout({
