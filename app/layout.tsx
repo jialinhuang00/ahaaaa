@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { Ubuntu } from "next/font/google";
+import "@/app/globals.css";
+import { TransitionProvider } from "@/app/providers";
+import AppLayout from "@/app/components/layout";
 
 const ubuntu = Ubuntu({
   subsets: [],
@@ -18,8 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={ubuntu.className}>{children}</body>
-    </html>
+    <TransitionProvider>
+      <html lang="en">
+        <body className={ubuntu.className}>
+          <AppLayout>{children}</AppLayout>
+        </body>
+      </html>
+    </TransitionProvider>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { css } from "@emotion/react";
-import { Button } from "@/app/components/Button";
-import { Input } from "@/app/components/Input";
+import { Button } from "@/app/components/Base/Button";
+import { Input } from "@/app/components/Base/Input";
 import { Slider } from "@/app/components/Slider";
 
 export default function ComponentGuideLinePage() {
@@ -13,7 +13,6 @@ export default function ComponentGuideLinePage() {
         flex-direction: column;
         gap: 16px;
         align-items: flex-start;
-        width: 540px;
         margin: 100px auto;
       `}
     >

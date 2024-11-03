@@ -39,9 +39,10 @@ const sliderStyles = {
     width: ${percentage}%;
   `,
   thumb: css`
-    width: 16px;
-    height: 16px;
-    background: #ffc107;
+    width: 20px;
+    height: 20px;
+    background: var(--background);
+    border: 5px solid #ffc107;
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -63,7 +64,10 @@ const sliderStyles = {
     justify-content: space-between;
     margin-top: 8px;
     color: #666;
-    font-size: 12px;
+  `,
+  label: css`
+    text-align: center;
+    font-size: 16px;
   `,
 };
 
@@ -142,7 +146,6 @@ export const Slider = ({
   );
 
   const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // For direct clicks on the track, calculate absolute position
     if (!trackRef.current) return;
 
     const rect = trackRef.current.getBoundingClientRect();
@@ -192,7 +195,22 @@ export const Slider = ({
       </div>
       <div css={sliderStyles.labels}>
         {ticks.map((tick, idx) => (
-          <span key={idx}>{tick}</span>
+          <div
+            key={idx}
+            css={css`
+              position: relative;
+            `}
+          >
+            <span
+              css={css`
+                ${sliderStyles.label};
+                position: absolute;
+                left: ${idx ? -9 : 0}px;
+              `}
+            >
+              {tick}
+            </span>
+          </div>
         ))}
       </div>
     </div>
