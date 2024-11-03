@@ -23,7 +23,7 @@ export const Nav = memo(function Nav() {
         justify-content: center;
         height: 66px;
         display: flex;
-        gap: 16px;
+        gap: 12px;
         filter: blur(54);
         background: #18181833;
         box-shadow: 0px 0.5px 0px 0px #000000cc inset;
@@ -42,7 +42,7 @@ export const Nav = memo(function Nav() {
             flex-direction: column;
             align-items: center;
             justify-content: start;
-            gap: 16px;
+            gap: 12px;
           `}
           onClick={() => {
             setSlideDirection("right");
@@ -67,10 +67,13 @@ export const Nav = memo(function Nav() {
           </svg>
           <div
             css={css`
-              display: none;
+              visibility: hidden;
+              font-size: 12px;
               ${media.tabletUp(
                 css`
-                  display: initial;
+                  visibility: ${pathname.includes(nav.url)
+                    ? "visible"
+                    : "hidden"};
                 `
               )}
             `}

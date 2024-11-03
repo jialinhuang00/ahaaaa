@@ -44,10 +44,9 @@ export default function AppLayout({
         className="main"
         css={css`
           grid-area: main;
-          height: calc(100vh - ${isRoot ? 66 : 0}px); // 66px is for nav
-          ${media.tabletUp(css`
-            height: calc(100vh);
-          `)}
+          min-height: 100vh;
+          height: auto;
+          ${media.tabletUp(css``)}
         `}
       >
         {children}

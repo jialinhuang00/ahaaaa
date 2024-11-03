@@ -17,7 +17,6 @@ const shimmerKeyframes = keyframes`
 
 const cardCss = css`
   width: 100%;
-  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 `;
@@ -43,6 +42,7 @@ const imageCss = css`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
   opacity: 0;
   transition: opacity 0.3s ease;
 
