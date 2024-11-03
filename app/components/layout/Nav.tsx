@@ -4,7 +4,31 @@ import { memo } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { media } from "@/app/css/media";
 import { useTransition } from "@/app/providers";
-
+const styles = {
+  container: css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 66px;
+    display: flex;
+    gap: 12px;
+    filter: blur(54);
+    background: #18181833;
+    box-shadow: 0px 0.5px 0px 0px #000000cc inset;
+    ${media.tabletUp(css`
+      flex-direction: column;
+      height: auto;
+      padding: 40px 0;
+    `)}
+  `,
+  navItem: css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 12px;
+  `,
+};
 const navItems = [
   { url: "/search", name: "Home" },
   { url: "/tags", name: "Tags" },
@@ -16,39 +40,17 @@ export const Nav = memo(function Nav() {
   const { setSlideDirection } = useTransition();
 
   return (
-    <div
-      css={css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 66px;
-        display: flex;
-        gap: 12px;
-        filter: blur(54);
-        background: #18181833;
-        box-shadow: 0px 0.5px 0px 0px #000000cc inset;
-        ${media.tabletUp(css`
-          flex-direction: column;
-          height: auto;
-          padding: 40px 0;
-        `)}
-      `}
-    >
+    <div css={styles.container}>
       {navItems.map((nav) => (
         <div
           key={nav.url}
-          css={css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: start;
-            gap: 12px;
-          `}
+          css={styles.navItem}
           onClick={() => {
             setSlideDirection("right");
             router.push(nav.url);
           }}
         >
+          {/* not using any tool, just only one svg in this project */}
           <svg
             css={css`
               cursor: pointer;

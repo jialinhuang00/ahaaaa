@@ -4,6 +4,27 @@ import { useTransition } from "@/app/providers";
 import { css } from "@emotion/react";
 import { ReactProps } from "@/types/global-interface";
 
+const styles = {
+  container: css`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  `,
+  button: css`
+    cursor: pointer;
+    display: flex;
+    gap: 14px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+  `,
+  title: css`
+    font-size: 24px;
+  `,
+};
+
 export const RouteBack = memo<
   ReactProps<{ title: string; showArrow?: boolean }>
 >(function RouteBack({ title, showArrow }) {
@@ -17,34 +38,10 @@ export const RouteBack = memo<
     router.back();
   };
   return (
-    <div
-      css={css`
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        gap: 10px;
-      `}
-    >
-      <button
-        onClick={handleBack}
-        css={css`
-          cursor: pointer;
-          display: flex;
-          gap: 14px;
-          background: none;
-          border: none;
-          color: white;
-          font-size: 24px;
-        `}
-      >
+    <div css={styles.container}>
+      <button onClick={handleBack} css={styles.button}>
         {showArrow && <span>&lt;</span>}
-        <h1
-          css={css`
-            font-size: 24px;
-          `}
-        >
-          {title}
-        </h1>
+        <h1 css={styles.title}>{title}</h1>
       </button>
     </div>
   );

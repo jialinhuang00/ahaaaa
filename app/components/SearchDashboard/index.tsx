@@ -10,6 +10,39 @@ import { Input } from "@/app/components/Base/Input";
 import { media } from "@/app/css/media";
 import { searchParamStore } from "@/app/store/searchParamStore";
 
+const styles = {
+  container: css`
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 0;
+    height: 100%;
+    color: white;
+    ${media.tabletUp(
+      css`
+        height: 100vh;
+        padding: 64px;
+      `
+    )}
+  `,
+  searchSection: css`
+    margin-bottom: 40px;
+  `,
+  fieldTitle: css`
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  `,
+  action: css`
+    margin-top: auto;
+    margin-bottom: 40px;
+    ${media.tabletUp(
+      css`
+        margin-bottom: 0;
+        width: 340px;
+      `
+    )}
+  `,
+};
 const SearchDashboard = memo(function SearchDashboard() {
   const router = useRouter();
   const { q, n } = useSnapshot(searchParamStore);
@@ -21,21 +54,7 @@ const SearchDashboard = memo(function SearchDashboard() {
   };
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        padding: 20px 20px 0;
-        height: 100%;
-        color: white;
-        ${media.tabletUp(
-          css`
-            height: 100vh;
-            padding: 64px;
-          `
-        )}
-      `}
-    >
+    <div css={styles.container}>
       <div
         css={css`
           color: #ff6b00;
@@ -49,20 +68,8 @@ const SearchDashboard = memo(function SearchDashboard() {
       >
         LOGO
       </div>
-      <div
-        css={css`
-          margin-bottom: 40px;
-        `}
-      >
-        <h1
-          css={css`
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 20px;
-          `}
-        >
-          Search
-        </h1>
+      <div css={styles.searchSection}>
+        <h1 css={styles.fieldTitle}>Search</h1>
 
         <Input
           onChange={(e) => (searchParamStore.q = e.target.value)}
@@ -71,15 +78,7 @@ const SearchDashboard = memo(function SearchDashboard() {
       </div>
 
       <div>
-        <h1
-          css={css`
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 20px;
-          `}
-        >
-          # Of Results Per Page
-        </h1>
+        <h1 css={styles.fieldTitle}># Of Results Per Page</h1>
         <Slider
           defaultValue={0}
           onChange={(value) => {
@@ -88,18 +87,7 @@ const SearchDashboard = memo(function SearchDashboard() {
         />
       </div>
 
-      <div
-        css={css`
-          margin-top: auto;
-          margin-bottom: 40px;
-          ${media.tabletUp(
-            css`
-              margin-bottom: 0;
-              width: 340px;
-            `
-          )}
-        `}
-      >
+      <div css={styles.action}>
         <Button onClick={handleSearch} fullwidth size="large">
           Search
         </Button>

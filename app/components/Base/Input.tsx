@@ -8,29 +8,44 @@ interface InputProps {
   label: string;
 }
 
+const inputStyles = {
+  container: css`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    width: 100%;
+  `,
+  label: css`
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+  `,
+  input: css`
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 3x solid #333;
+    border-radius: 4px;
+    color: var(--foreground);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: var(--primary);
+    }
+  `,
+};
+
 /**
  * @example
   <Input label="label" placeholder="Keyword" />
  */
 export const Input = ({ placeholder, value, onChange, label }: InputProps) => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        position: relative;
-        width: 100%;
-      `}
-    >
-      <label
-        css={css`
-          font-weight: 700;
-          text-transform: uppercase;
-          font-size: 14px;
-        `}
-        htmlFor={label}
-      >
+    <div css={inputStyles.container}>
+      <label css={inputStyles.label} htmlFor={label}>
         {label}
       </label>
       <input
@@ -38,21 +53,7 @@ export const Input = ({ placeholder, value, onChange, label }: InputProps) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        css={css`
-          width: 100%;
-          padding: 12px;
-          background: transparent;
-          border: 3x solid #333;
-          border-radius: 4px;
-          color: var(--foreground);
-          font-size: 14px;
-          outline: none;
-          transition: all 0.2s ease;
-
-          &:focus {
-            border-color: var(--primary);
-          }
-        `}
+        css={inputStyles.input}
       />
     </div>
   );

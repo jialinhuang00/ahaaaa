@@ -1,8 +1,8 @@
-import { keyframes } from "@emotion/css";
-import { css } from "@emotion/react";
 import { memo } from "react";
 import { useSnapshot } from "valtio";
-import { followStore } from "../../store/followStore";
+import { keyframes } from "@emotion/css";
+import { css } from "@emotion/react";
+import { followStore } from "@/app/store/followStore";
 
 const fadeIn = keyframes`
   from {
