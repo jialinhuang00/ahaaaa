@@ -9,6 +9,7 @@ import { Slider } from "@/app/components/Slider";
 import { Input } from "@/app/components/Base/Input";
 import { media } from "@/app/css/media";
 import { searchParamStore } from "@/app/store/searchParamStore";
+import Logo from "@/app/components/layout/Logo";
 
 const styles = {
   container: css`
@@ -57,7 +58,6 @@ const SearchDashboard = memo(function SearchDashboard() {
     <div css={styles.container}>
       <div
         css={css`
-          color: #ff6b00;
           margin-bottom: 30px;
           ${media.tabletUp(
             css`
@@ -66,7 +66,7 @@ const SearchDashboard = memo(function SearchDashboard() {
           )}
         `}
       >
-        LOGO
+        <Logo />
       </div>
       <div css={styles.searchSection}>
         <h1 css={styles.fieldTitle}>Search</h1>
@@ -79,8 +79,22 @@ const SearchDashboard = memo(function SearchDashboard() {
 
       <div>
         <h1 css={styles.fieldTitle}># Of Results Per Page</h1>
+        <div>
+          <span
+            css={css`
+              font-weight: 700;
+              font-size: 48px;
+            `}
+          >
+            {n}{" "}
+          </span>
+          <span>results</span>
+        </div>
         <Slider
-          defaultValue={0}
+          defaultValue={n}
+          min={5}
+          max={30}
+          step={5}
           onChange={(value) => {
             searchParamStore.n = value;
           }}

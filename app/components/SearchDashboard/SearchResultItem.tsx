@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, memo } from "react";
 import { css, keyframes } from "@emotion/react";
 import { ReactProps } from "@/types/global-interface";
 import { Result } from "@/app/store/resultStore";

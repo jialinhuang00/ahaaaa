@@ -50,7 +50,7 @@ export default function SearchResult() {
   const [page, setPage] = useState(1);
   const displayedItems = useCallback(
     () => results.slice(0, Math.min(page * PAGE_DEFAULT_SIZE, n)),
-    [results, page]
+    [results, page, n]
   );
 
   const visibleItems = displayedItems();

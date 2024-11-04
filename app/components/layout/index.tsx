@@ -44,9 +44,8 @@ export default function AppLayout({
         className="main"
         css={css`
           grid-area: main;
-          min-height: 100vh;
+          min-height: calc(100vh - 66px);
           height: auto;
-          ${media.tabletUp(css``)}
         `}
       >
         {children}

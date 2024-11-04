@@ -1,9 +1,21 @@
-import React from "react";
-import { proxy, useSnapshot } from "valtio";
+import React, { useEffect, useRef } from "react";
+import { useSnapshot } from "valtio";
 import { css } from "@emotion/react";
 import { Button } from "@/app/components/Base/Button";
 import { followStore } from "@/app/store/followStore";
 import Tabs from "@/app/components/Follow/Tabs";
+import { keyframes } from "@emotion/css";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const styles = {
   container: css`
@@ -24,6 +36,15 @@ const styles = {
     align-items: center;
     justify-content: space-between;
     padding: 8px 0;
+    opacity: 0;
+    animation: ${fadeIn} 0.3s ease forwards;
+    &:nth-of-type(odd) {
+      animation-delay: 0.15s;
+    }
+
+    &:nth-of-type(even) {
+      animation-delay: 0.2s;
+    }
   `,
   userInfo: css`
     display: flex;
@@ -54,11 +75,59 @@ const styles = {
   username: css`
     color: #c6c6c6;
   `,
+  loadingIndicator: css`
+    text-align: center;
+    padding: 20px;
+    color: #c6c6c6;
+  `,
 };
 
 const Follow: React.FC = () => {
-  const { followers, followingUsers, currentTab, toggleFollow, setCurrentTab } =
-    useSnapshot(followStore);
+  const {
+    followers,
+    followingUsers,
+    currentTab,
+    toggleFollow,
+    fetchMoreUsers,
+    loading,
+    hasMore,
+  } = useSnapshot(followStore);
+  const observerTarget = useRef<HTMLDivElement>(null);
+
+  // 初次載入時取得第一頁資料
+  useEffect(() => {
+    if (
+      (currentTab === "followers" && followers.length === 0) ||
+      (currentTab === "following" && followingUsers.length === 0)
+    ) {
+      fetchMoreUsers();
+    }
+  }, [currentTab]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          fetchMoreUsers();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "20px",
+        threshold: 0,
+      }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [hasMore, loading]);
 
   return (
     <div css={styles.container}>
@@ -90,6 +159,10 @@ const Follow: React.FC = () => {
             </div>
           )
         )}
+
+        <div ref={observerTarget}>
+          {loading && <div css={styles.loadingIndicator}>Loading...</div>}
+        </div>
       </div>
     </div>
   );
