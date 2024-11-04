@@ -1,9 +1,8 @@
 import { proxy } from "valtio";
-import { followers, followingUsers } from "@/app/store/mockUsers";
 
 interface User {
   id: string;
-  fullname: string;
+  name: string;
   username: string;
   avatar: string;
   isFollowing: boolean;
@@ -11,12 +10,8 @@ interface User {
 
 type TabType = "followers" | "following";
 
+const API_ENDPOINT = "https://avl-frontend-exam.herokuapp.com/api/users";
 const ITEMS_PER_PAGE = 5;
-
-const originalData = {
-  followers: [...followers],
-  followingUsers: [...followingUsers],
-};
 
 export const followStore = proxy({
   followers: [] as User[],
@@ -51,27 +46,33 @@ export const followStore = proxy({
 
     followStore.loading = true;
 
-    // mock API fetching...
-    await new Promise((resolve) => setTimeout(resolve, 700));
+    try {
+      const endpoint =
+        followStore.currentTab === "followers"
+          ? `${API_ENDPOINT}/all?page=${followStore.page}&pageSize=${ITEMS_PER_PAGE}`
+          : `${API_ENDPOINT}/friends?page=${followStore.page}&pageSize=${ITEMS_PER_PAGE}`;
 
-    const currentData =
-      followStore.currentTab === "followers"
-        ? originalData.followers
-        : originalData.followingUsers;
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      console.log(data);
 
-    const startIndex = (followStore.page - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const newUsers = currentData.slice(startIndex, endIndex);
+      const newUsers = data.data || [];
+      followStore.hasMore = data.total > data.pageSize * data.page;
 
-    followStore.hasMore = endIndex < currentData.length;
+      if (followStore.currentTab === "followers") {
+        followStore.followers = [...followStore.followers, ...newUsers];
+      } else {
+        followStore.followingUsers = [
+          ...followStore.followingUsers,
+          ...newUsers,
+        ];
+      }
 
-    if (followStore.currentTab === "followers") {
-      followStore.followers = [...followStore.followers, ...newUsers];
-    } else {
-      followStore.followingUsers = [...followStore.followingUsers, ...newUsers];
+      followStore.page += 1;
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    } finally {
+      followStore.loading = false;
     }
-
-    followStore.page += 1;
-    followStore.loading = false;
   },
 });

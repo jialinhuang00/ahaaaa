@@ -102,32 +102,34 @@ const Follow: React.FC = () => {
     ) {
       fetchMoreUsers();
     }
-  }, [currentTab]);
+  }, [currentTab, fetchMoreUsers, followers.length, followingUsers.length]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        console.log(entries[0].isIntersecting, hasMore, !loading);
         if (entries[0].isIntersecting && hasMore && !loading) {
           fetchMoreUsers();
         }
       },
       {
         root: null,
-        rootMargin: "20px",
-        threshold: 0,
+        rootMargin: "200px 0px",
+        threshold: 0.05,
       }
     );
 
-    if (observerTarget.current) {
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
       observer.observe(observerTarget.current);
     }
 
     return () => {
-      if (observerTarget.current) {
+      if (currentTarget) {
         observer.unobserve(observerTarget.current);
       }
     };
-  }, [hasMore, loading]);
+  }, [hasMore, loading, fetchMoreUsers]);
 
   return (
     <div css={styles.container}>
@@ -139,14 +141,10 @@ const Follow: React.FC = () => {
             <div key={user.id} css={styles.userItem}>
               <div css={styles.userInfo}>
                 <div css={styles.avatarContainer}>
-                  <img
-                    css={styles.avatar}
-                    src={user.avatar}
-                    alt={user.fullname}
-                  />
+                  <img css={styles.avatar} src={user.avatar} alt={user.name} />
                 </div>
                 <div css={styles.userText}>
-                  <span css={styles.fullname}>{user.fullname}</span>
+                  <span css={styles.fullname}>{user.name}</span>
                   <span css={styles.username}>{user.username}</span>
                 </div>
               </div>
@@ -160,7 +158,14 @@ const Follow: React.FC = () => {
           )
         )}
 
-        <div ref={observerTarget}>
+        <div className="observer" ref={observerTarget}>
+          <span
+            css={css`
+              color: transparent;
+            `}
+          >
+            .
+          </span>
           {loading && <div css={styles.loadingIndicator}>Loading...</div>}
         </div>
       </div>
